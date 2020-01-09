@@ -1,4 +1,4 @@
-# electron-vue-example
+# electron-file-browser-with-vue
 
 ## Project setup
 ```
