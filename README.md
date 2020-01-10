@@ -1,6 +1,7 @@
 # electron-file-browser-with-vue
 
-##Demo
+## Demo
+
 ![alt text](src/assets/img/demo-view.jpg)
 
 ## Project setup
