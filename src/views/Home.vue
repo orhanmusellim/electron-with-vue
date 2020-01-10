@@ -12,5 +12,23 @@
 <script>
 export default {
   name: 'home',
+  data() {
+    return {
+      windowHeight : 100,
+      windowWidth : 100
+    }
+  },
+  created(){
+
+  }
 }
 </script>
+<style scoped>
+  .row > div {
+    height: windowHeight
+  }
+  body{
+    border-radius: 10px;
+    overflow: hidden;
+  }
+</style>

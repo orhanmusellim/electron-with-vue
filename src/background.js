@@ -23,13 +23,11 @@ protocol.registerStandardSchemes(['app'], {
 })
 
 function createMainWindow() {
-  const openWindow = screen.getPrimaryDisplay();
   const window = new BrowserWindow({
     width: 1000,
     height: 500,
     movable: true,
     frame: false,
-    x: openWindow,
     alwaysOnTop: false,
     backgroundColor: '#ddd',
     webPreferences: {
