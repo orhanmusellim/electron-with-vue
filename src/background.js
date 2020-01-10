@@ -4,7 +4,7 @@ import {
   app,
   protocol,
   BrowserWindow,
-  ipcMain
+  screen
 } from 'electron'
 import * as path from 'path'
 import {
@@ -17,44 +17,29 @@ import {
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 let mainWindow
-let imageWindow
-let settingsWindow
-
 // Standard scheme must be registered before the app is ready
 protocol.registerStandardSchemes(['app'], {
   secure: true
 })
 
 function createMainWindow() {
+  const openWindow = screen.getPrimaryDisplay();
   const window = new BrowserWindow({
     width: 1000,
     height: 500,
     movable: true,
     frame: false,
+    x: openWindow,
     alwaysOnTop: false,
     backgroundColor: '#ddd',
     webPreferences: {
       webSecurity: false
     }
   })
-  const image = new BrowserWindow({
-    width: 400,
-    height: 400,
-    parent: window,
-    show: false
-  })
-  const settings = new BrowserWindow({
-    width: 400,
-    height: 400,
-    parent: window,
-    show: false
-  })
 
   if (isDevelopment) {
     // Load the url of the dev server if in development mode
     window.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    image.loadURL(process.env.WEBPACK_DEV_SERVER_URL + '/#/image')
-    settings.loadURL(process.env.WEBPACK_DEV_SERVER_URL + '/#/settings')
     if (!process.env.IS_TEST) window.webContents.openDevTools()
   } else {
     createProtocol('app')
@@ -67,22 +52,10 @@ function createMainWindow() {
       })
     )
 
-    image.loadURL(`file://${__dirname}/index.html#image`)
-    settings.loadURL(`file://${__dirname}/index.html#settings`)
   }
 
   window.on('closed', () => {
     mainWindow = null
-  })
-
-  image.on('close', (e) => {
-    e.preventDefault()
-    image.hide()
-  })
-
-  settings.on('close', (e) => {
-    e.preventDefault()
-    settings.hide()
   })
 
   window.webContents.on('devtools-opened', () => {
@@ -91,9 +64,6 @@ function createMainWindow() {
       window.focus()
     })
   })
-
-  imageWindow = image
-  settingsWindow = settings
 
   return window
 }
@@ -120,13 +90,4 @@ app.on('ready', async () => {
     await installVueDevtools()
   }
   mainWindow = createMainWindow()
-})
-
-ipcMain.on('toggle-image', (event, arg) => {
-  imageWindow.show();
-  imageWindow.webContents.send('image', arg);
-})
-
-ipcMain.on('toggle-settings', () => {
-  settingsWindow.isVisible() ? settingsWindow.hide() : settingsWindow.show()
 })

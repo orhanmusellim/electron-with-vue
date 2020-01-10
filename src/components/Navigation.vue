@@ -1,7 +1,31 @@
 <template>
   <div class="navigation-bar">
-    <span>Navigation</span>
-    <button v-on:click="closeWindow()">xy</button>
+    <b-navbar toggleable="sm" type="dark" class="bg-amber" variant="info">
+      <b-navbar-brand href="#" class="text-body">File Browser</b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+        </b-navbar-nav>
+
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
+          <b-button class="text-center text-body bg-transparent border-0 clickable" @click="developerConsole()">
+            <b-icon icon="gear"></b-icon>
+          </b-button>
+          <b-button class="text-center text-body bg-transparent border-0 clickable" @click="minimizeWindow()">
+            <b-icon icon="dash"></b-icon>
+          </b-button>
+          <b-button class="text-center text-body bg-transparent border-0 clickable" @click="fullscreenWindow()">
+            <b-icon :icon="fullscreenicon"></b-icon>
+          </b-button>
+          <b-button class="text-center text-body bg-transparent border-0 clickable" @click="closeWindow()">
+            <b-icon icon="x-circle"></b-icon>
+          </b-button>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
   </div>
 </template>
 
@@ -11,11 +35,10 @@ const { Menu } = remote
 
 export default {
   name: 'Navigation',
-  props: {
-    msg: String
-  },
   data() {
-    return {}
+    return {
+      fullscreenicon :'arrows-fullscreen'
+    }
   },
   created() {
     this.initMenu();
@@ -60,9 +83,29 @@ export default {
       Menu.setApplicationMenu(menu);
     },
     closeWindow(){
-      console.log('Kapat');
       var window = remote.getCurrentWindow();
        window.close();
+    },
+    fullscreenWindow(){
+      var window = remote.getCurrentWindow();
+      if(window.isMaximized()){
+        this.fullscreenicon = 'arrows-fullscreen';
+        window.setSize(1000, 500);
+        var x = remote.getCurrentWindow().getPosition()[0] + 200;
+        var y = remote.getCurrentWindow().getPosition()[1] + 200;
+        window.setPosition(x,y)
+      }else{
+        this.fullscreenicon = 'arrows-angle-contract';
+        window.maximize();
+      }
+    },
+    minimizeWindow(){
+      var window = remote.getCurrentWindow();
+      window.minimize();
+    },
+    developerConsole(){
+      var window = remote.getCurrentWindow();
+      window.webContents.openDevTools();
     }
   }
 }
@@ -70,18 +113,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .b-button, button {
+    outline: none!important;
+    box-shadow: none!important;
+  }
 .navigation-bar {
   -webkit-app-region: drag;
-  height:50px;
-  background:#dede00;
-  color:#dd00;
-  display:flex;
-  align-content: center;
-  justify-content: space-between;
-  align-items: center;
-  padding:10px 10px;
 }
-.navigation-bar > button {
+.clickable {
+  cursor:pointer;
   -webkit-app-region: no-drag;
 }
 </style>
