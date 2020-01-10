@@ -1,7 +1,7 @@
 <template>
   <div class="navigation-bar">
-    <b-navbar toggleable="sm" type="dark" class="bg-amber" variant="info">
-      <b-navbar-brand href="#" class="text-body">File Browser</b-navbar-brand>
+    <b-navbar type="dark" class="bg-amber" variant="info">
+      <b-navbar-brand href="#" class="text-body">Electron With Vue</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -9,20 +9,23 @@
         <b-navbar-nav>
         </b-navbar-nav>
 
-        <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-button class="text-center text-body bg-transparent border-0 clickable" @click="developerConsole()">
-            <b-icon icon="gear"></b-icon>
-          </b-button>
-          <b-button class="text-center text-body bg-transparent border-0 clickable" @click="minimizeWindow()">
-            <b-icon icon="dash"></b-icon>
-          </b-button>
-          <b-button class="text-center text-body bg-transparent border-0 clickable" @click="fullscreenWindow()">
-            <b-icon :icon="fullscreenicon"></b-icon>
-          </b-button>
-          <b-button class="text-center text-body bg-transparent border-0 clickable" @click="closeWindow()">
-            <b-icon icon="x-circle"></b-icon>
-          </b-button>
+          <div class="border-right border-secondary">
+            <b-button class="text-center text-body bg-transparent border-0 clickable" @click="developerConsole()">
+              <b-icon icon="code-slash"></b-icon>
+            </b-button>
+          </div>
+          <div>
+            <b-button class="text-center text-body bg-transparent border-0 clickable" @click="minimizeWindow()">
+              <b-icon icon="dash"></b-icon>
+            </b-button>
+            <b-button class="text-center text-body bg-transparent border-0 clickable" @click="fullscreenWindow()">
+              <b-icon :icon="fullscreenicon"></b-icon>
+            </b-button>
+            <b-button class="text-center text-body bg-transparent border-0 clickable" @click="closeWindow()">
+              <b-icon icon="x-circle"></b-icon>
+            </b-button>
+          </div>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
